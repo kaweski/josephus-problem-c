@@ -3,10 +3,10 @@
 ## Data Structure II Work ##
 
 Made by:
-* [@naweskil](http://www.twitter.com/naweskil)
-* Vinícius Ribeiro
+* [Natasha Kaweski](http://www.twitter.com/naweskil)
+* [Vinícius Ferreira](https://www.facebook.com/ferreiravinicius)
 
-### What does it does? ###
+### What does it do? ###
 
 * Nothing yet! :P
 
