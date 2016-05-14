@@ -15,9 +15,9 @@
 
 typedef struct soldado SLista;
 struct soldado {
-	char nomeSoldado[10];
-	int numero;
-	SLista* proximo;
+	char nome[10];
+	int num;
+	SLista* prox;
 };
 
 SLista* inicializando();
@@ -37,13 +37,13 @@ int main(void) {
 
 	int i;
 	for ( i = 0; i < 5; i++ ) {
-		printf("%s", soldados[i]);
+		printf("Lista Inicial de Soldados:\n%s, ", soldados[i]);
 	}
 
 	// Insere esses soldados no círculo
-	circuloSoldados = insereSoldadoNoCirc(soldados, circuloSoldados);
-
-
+	for ( i = 0; i < 5; i++ ) {
+		circuloSoldados = insereSoldadoNoCirc(soldados[i], circuloSoldados, i);
+	}
 
 
 
@@ -58,12 +58,38 @@ SLista* inicializando() {
 }
 
 /*
+ * Verifica se a lista está vazia
+ */
+SLista* vazia(SLista* lista) {
+	return !lista;
+}
+
+/*
  * Função: Insere soldados na lista
- * Parametros: array com o nomes dos soltados, a lista a ser inserido os nomes
+ * Parametros: array com o nomes dos soldados, a lista a ser inserido os nomes
  */
 
-insereSoldadoNoCirc(int num, SLista* lista) {
-	return lista;
+insereSoldadoNoCirc(char nome, SLista* lista, int num) {
+	SLista* aux;
+	aux = (SLista*) malloc(sizeof(SLista));
+	aux->nome = nome;
+
+	if ( vazia(lista) ) {
+		aux->prox = aux;
+	} else {
+		aux->prox = lista;
+		SLista* aux2 = lista; // Find the last register
+
+		// Make the list circular.
+		do {
+			aux2 = aux2->next;
+		} while ( aux2->next != list );
+
+		/* Return to the last register
+		 * at the top of the list. */
+		aux2->next = aux;
+	}
+	return aux; // Top of the list
 }
 
 /*
