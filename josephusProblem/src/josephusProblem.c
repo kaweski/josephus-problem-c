@@ -15,12 +15,15 @@
 
 typedef struct soldado SLista;
 struct soldado {
-	char nome[10];
-	int num;
-	SLista* prox;
+	char nomeSold[10];
+	int numSold;
+	SLista* proxSold;
 };
 
 SLista* inicializando();
+int verificaCircVazio(SLista* lista);
+SLista* insereSoldadoNoCirc(SLista* lista, char nome, int num);
+void imprimeSoldadosCirc(SLista* lista);
 
 int main(void) {
 
@@ -36,16 +39,13 @@ int main(void) {
 	char soldados[5][10]  = { "João", "Arthur", "Davi", "Joaquim", "Eduardo" };
 
 	int i;
-	for ( i = 0; i < 5; i++ ) {
-		printf("Lista Inicial de Soldados:\n%s, ", soldados[i]);
-	}
+	printf("Lista inicial de soldados:\n");
+	for ( i = 0; i < 5; i++ )
+		printf("%s, ", soldados[i]);
 
 	// Insere esses soldados no círculo
-	for ( i = 0; i < 5; i++ ) {
-		circuloSoldados = insereSoldadoNoCirc(soldados[i], circuloSoldados, i);
-	}
-
-
+	circuloSoldados = insereSoldadoNoCirc(circuloSoldados, soldados[1][10], 1);
+	imprimeSoldadosCirc(circuloSoldados);
 
 	return EXIT_SUCCESS;
 }
@@ -60,7 +60,7 @@ SLista* inicializando() {
 /*
  * Verifica se a lista está vazia
  */
-SLista* vazia(SLista* lista) {
+int verificaCircVazio(SLista* lista) {
 	return !lista;
 }
 
@@ -69,40 +69,35 @@ SLista* vazia(SLista* lista) {
  * Parametros: array com o nomes dos soldados, a lista a ser inserido os nomes
  */
 
-insereSoldadoNoCirc(char nome, SLista* lista, int num) {
+SLista* insereSoldadoNoCirc(SLista* lista, char nome, int num) {
 	SLista* aux;
-	aux = (SLista*) malloc(sizeof(SLista));
-	aux->nome = nome;
+	aux = (SLista*) malloc(sizeof(SLista)); // Cria o registro na memória
+	aux->nomeSold[10] = nome; // Insere o nome do soldado
+	aux->numSold = num; // Insere o número do soldado
 
-	if ( vazia(lista) ) {
-		aux->prox = aux;
-	} else {
-		aux->prox = lista;
-		SLista* aux2 = lista; // Find the last register
-
-		// Make the list circular.
-		do {
-			aux2 = aux2->next;
-		} while ( aux2->next != list );
-
-		/* Return to the last register
-		 * at the top of the list. */
-		aux2->next = aux;
+	// Agora pra tornar a lista circular e encadeada, segue-se a lógica abaixo
+	if ( verificaCircVazio(lista) ) {
+		aux->proxSold = aux; // Se a lista estiver vazia, o primeiro registro deve apontar pra ele mesmo.
 	}
-	return aux; // Top of the list
+	return aux; // Retorna o topo da lista
 }
 
 /*
  * Return
  * Param
  */
-//verificaCircVazio();
+void imprimeSoldadosCirc(SLista* lista) {
+	SLista* aux = lista;
 
-/*
- * Return
- * Param
- */
-//imprimeSoldadosCirc();
+	// Se a lista estiver vazia, nem entra na condição
+	if(aux) {
+		printf("\n\nSoldados no círculo:\n");
+		do {
+			printf( "%c, ", aux->nomeSold[10] );
+			aux = aux->proxSold;
+		} while ( aux != lista ); // Finaliza o loop
+	}
+}
 
 /*
  * Return
