@@ -1,0 +1,74 @@
+/*
+ ============================================================================
+ Name        : josephusProblem.c
+ Author      : Natasha Kaweski e Vinícius Ferreira
+ Version     :
+ Copyright   : Your copyright notice
+ Description : O Problema de Josephus (Tenenbaum, 1989)
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+
+typedef struct soldado SLista;
+struct soldado {
+	int numero;
+	SLista* proximo;
+};
+
+insereSoldadoNoCirc(int num, SLista* lista);
+
+int main(void) {
+
+	int numSoldados = 0;
+	printf("O Problema de Josephus\n\nNúmero de soldados utilizados:");
+	scanf("%d", &numSoldados);
+
+	char soldados[numSoldados];
+	SLista* circuloSoldados;
+
+	insereSoldadoNoCirc(numSoldados, circuloSoldados);
+
+	return 0;
+}
+
+/*
+ * Função: Inicializa a lista circular.
+ * Parametros: SLista* lista
+ */
+
+/*
+ * Return
+ * Param
+ */
+
+SLista* insereSoldadoNoCirc(int num, SLista* lista) {
+	return lista;
+}
+
+/*
+ * Return
+ * Param
+ */
+//verificaCircVazio();
+
+/*
+ * Return
+ * Param
+ */
+//imprimeSoldadosCirc();
+
+/*
+ * Return
+ * Param
+ */
+//verificaQteSoldados();
+
+/*
+ * Return:
+ * Param
+ */
+//executaJosephus();

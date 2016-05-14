@@ -1,0 +1,22 @@
+/*
+ ============================================================================
+ Name        : josephusProblem.c
+ Author      : Natasha Kaweski e Vinícius Ferreira
+ Version     :
+ Copyright   : Your copyright notice
+ Description : O Problema de Josephus (Tenenbaum, 1989)
+ ============================================================================
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct soldier {
+
+};
+
+int main(void) {
+	puts("O Problema de Josephus (Tenenbaum, 1989)"); /* prints  */
+	return EXIT_SUCCESS;
+}

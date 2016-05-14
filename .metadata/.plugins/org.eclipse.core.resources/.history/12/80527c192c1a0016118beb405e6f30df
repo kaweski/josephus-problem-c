@@ -93,7 +93,7 @@ void imprimeSoldadosCirc(SLista* lista) {
 	if(aux) {
 		printf("\n\nSoldados no círculo:\n");
 		do {
-			printf( "%c, ", aux->nomeSold[10] );
+			printf( "%c, ", aux->nomeSold );
 			aux = aux->proxSold;
 		} while ( aux != lista ); // Finaliza o loop
 	}
