@@ -52,7 +52,7 @@ int main(void) {
 
 SLista* cria_soldado(char *nome, int numero) {
 
-	SLista *soldado = (SLista *)malloc(sizeof(SLista)); //usando calloc pq ele aloca e inicializa
+	SLista *soldado = (SLista *)malloc(sizeof(SLista));
 	soldado->num = numero;
 	strcpy(soldado->nome, nome);
 	soldado->prox = soldado;
