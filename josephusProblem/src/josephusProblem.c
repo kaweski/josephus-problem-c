@@ -14,99 +14,96 @@
 #include <string.h>
 
 typedef struct soldado SLista;
+
 struct soldado {
-	char nomeSold[10];
-	int numSold;
-	SLista* proxSold;
+	char nome[20];
+	int num;
+	SLista* prox;
 };
 
-SLista* inicializando();
+//Auxiliares
+SLista* cria_soldado(char *nome, int numero);
+
+SLista* inicializa();
 int verificaCircVazio(SLista* lista);
-SLista* insereSoldadoNoCirc(SLista* lista, char nome, int num);
+SLista* insereSoldadoNoCirc(SLista* lista, char *nome, int num);
 void imprimeSoldadosCirc(SLista* lista);
 
 int main(void) {
 
-	/*
-	 * Incializa-se a lista.
-	 */
-	SLista* circuloSoldados;
-	circuloSoldados = inicializando();
-
-	/*
-	 * Cria uma matriz com o número de soldados a serem inseridos na lista
-	 */
-	char soldados[5][10]  = { "João", "Arthur", "Davi", "Joaquim", "Eduardo" };
+	//Proposito de testes
+	char nomes[5][20]  = { "Joao", "Arthur", "Davi", "Joaquim", "Eduardo" };
 
 	int i;
-	printf("Lista inicial de soldados:\n");
-	for ( i = 0; i < 5; i++ )
-		printf("%s, ", soldados[i]);
+	SLista *listax = inicializa();
 
-	// Insere esses soldados no círculo
-	circuloSoldados = insereSoldadoNoCirc(circuloSoldados, soldados[1][10], 1);
-	imprimeSoldadosCirc(circuloSoldados);
+	//Insere os 5 soldados na lista
+	for (i = 0; i < 5; i++)  {
+		listax = insereSoldadoNoCirc(listax, nomes[i], (i+1));
+	}
+
+	//Imprime
+	imprimeSoldadosCirc(listax);
+
 
 	return EXIT_SUCCESS;
 }
 
-/*
- * Função: Inicializa a lista circular.
- */
-SLista* inicializando() {
+
+SLista* cria_soldado(char *nome, int numero) {
+
+	SLista *soldado = (SLista *)malloc(sizeof(SLista)); //usando calloc pq ele aloca e inicializa
+	soldado->num = numero;
+	strcpy(soldado->nome, nome);
+	soldado->prox = soldado;
+
+	return soldado;
+}
+
+SLista* insereSoldadoNoCirc(SLista* lista, char *nome, int num) {
+
+	//aloca na memória um soldado apontando pra ele mesmo
+	SLista *soldado = cria_soldado(nome, num);
+
+	//se lista existit (se não estiver vazia):
+	//percorre até encontrar o ultimo elemento
+	//liga o ´prox´ do novo soldado na lista
+	//liga o ´prox´ do ultimo soldado no novo soldado
+	if (lista)
+	{
+		SLista *aux = lista;
+
+		while (aux->prox != lista)
+			aux = aux->prox;
+
+		aux->prox = soldado;
+		soldado->prox = lista;
+	}
+
+	return soldado;
+}
+
+
+void imprimeSoldadosCirc(SLista* lista) {
+
+	SLista* aux = lista;
+
+	if (!verificaCircVazio(lista))
+	{
+		do {
+				printf("Soldado: [%d] %s [%p]->[%p]\n", aux->num, aux->nome, aux, aux->prox);
+				aux = aux->prox;
+
+			} while (aux != lista);
+	}
+
+}
+
+SLista* inicializa() {
 	return NULL;
 }
 
-/*
- * Verifica se a lista está vazia
- */
+
 int verificaCircVazio(SLista* lista) {
 	return !lista;
 }
-
-/*
- * Função: Insere soldados na lista
- * Parametros: array com o nomes dos soldados, a lista a ser inserido os nomes
- */
-
-SLista* insereSoldadoNoCirc(SLista* lista, char nome, int num) {
-	SLista* aux;
-	aux = (SLista*) malloc(sizeof(SLista)); // Cria o registro na memória
-	aux->nomeSold[10] = nome; // Insere o nome do soldado
-	aux->numSold = num; // Insere o número do soldado
-
-	// Agora pra tornar a lista circular e encadeada, segue-se a lógica abaixo
-	if ( verificaCircVazio(lista) ) {
-		aux->proxSold = aux; // Se a lista estiver vazia, o primeiro registro deve apontar pra ele mesmo.
-	}
-	return aux; // Retorna o topo da lista
-}
-
-/*
- * Return
- * Param
- */
-void imprimeSoldadosCirc(SLista* lista) {
-	SLista* aux = lista;
-
-	// Se a lista estiver vazia, nem entra na condição
-	if(aux) {
-		printf("\n\nSoldados no círculo:\n");
-		do {
-			printf( "%c, ", aux->nomeSold[10] );
-			aux = aux->proxSold;
-		} while ( aux != lista ); // Finaliza o loop
-	}
-}
-
-/*
- * Return
- * Param
- */
-//verificaQteSoldados();
-
-/*
- * Return:
- * Param
- */
-//executaJosephus();
