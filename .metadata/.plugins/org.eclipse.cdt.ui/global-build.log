@@ -1,5 +1,0 @@
-20:33:05 **** Incremental Build of configuration Debug for project josephusProblem ****
-Info: Internal Builder is used for build
-gcc -O0 -g3 -Wall -c -fmessage-length=0 -o "src\\josephusProblem.o" "..\\src\\josephusProblem.c" 
-gcc -o josephusProblem.exe "src\\josephusProblem.o" 
-Info: Nothing to build for josephusProblem
