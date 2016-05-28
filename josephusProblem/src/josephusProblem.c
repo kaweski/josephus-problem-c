@@ -35,40 +35,52 @@ SLista* executaJosephus(SLista *lista, int quantidade);
 
 int main(void) {
 
+	// =======================
+	// Inserção de soldados
+	// =======================
+
+	// Escolhe um número
 	srand(time(0));
 
-	// Proposito de testes
-	char nomes[5][20]  = { "Joao", "Arthur", "Davi", "Joaquim", "Eduardo" };
-
+	// Declaração de variáveis
 	int i;
-	SLista *listax = inicializa();
+	SLista* listax = inicializa();
+
+	// Propósito de testes
+	char nomes[5][20] = { "Joao", "Arthur", "Davi", "Joaquim", "Eduardo" };
 
 	// Insere os 5 soldados na lista
-	for (i = 0; i < 5; i++)  {
+	// e imprime a lista com os soldados inseridos.
+	for (i = 0; i < 5; i++)
 		listax = insereSoldadoNoCirc(listax, nomes[i], (i+1));
-	}
 
-	int quantidade = verificaQteSoldados(listax);
-
-	// Imprime
 	imprimeSoldadosCirc(listax);
 
-	// Quantidade de Soldados
+	// Quantidade de soldados na lista
+	int quantidade = verificaQteSoldados(listax);
 	printf("\nQuantidade de Soldados: %d\n\n", quantidade);
 
+	// =======================
+	// Execução de Josephus
+	// =======================
 	listax = executaJosephus(listax, quantidade);
 
 	// Imprime
+	printf("\nSoldado a executar a tarefa:\n");
 	imprimeSoldadosCirc(listax);
 
 	return EXIT_SUCCESS;
 }
 
-// Aloca na memória um soldado apontando pra ele mesmo
-SLista* cria_soldado(char *nome, int numero) {
+/*
+ * Função que aloca na memória um soldado apontando pra ele mesmo
+ */
+SLista* cria_soldado(char* nome, int numero) {
 
+	// Aloca na memória o espaço de um soldaddo
+	SLista* soldado = (SLista*)malloc(sizeof(SLista));
 
-	SLista *soldado = (SLista *)malloc(sizeof(SLista));
+	// Atribui os parâmetros como os dados armazenados do espaço em memória
 	soldado->num = numero;
 	strcpy(soldado->nome, nome);
 	soldado->prox = soldado;
@@ -76,26 +88,30 @@ SLista* cria_soldado(char *nome, int numero) {
 	return soldado;
 }
 
-SLista* remove_soldado(SLista *lista, SLista *soldado) {
+/*
+ * Função que remove um soldado da lista
+ */
+SLista* remove_soldado(SLista* lista, SLista* soldado) {
 
 	SLista* aux = lista;
 
+	// Verifica se a lista só tem um soldado
 	if (soldado == aux && soldado->prox == aux) {
 		lista = inicializa();
 
+	// Verifica se o soldado é o primeiro da lista
 	} else if (soldado == aux) {
 		lista = soldado->prox;
 
 		do {
 			aux = aux->prox;
-		} while (aux->prox != lista);
+		} while (aux->prox->prox != lista);
 
 		aux->prox = lista;
 
+	// Qualquer outra posição da lista
 	} else {
-
 		do {
-
 			if (aux->prox == soldado) {
 				aux->prox = soldado->prox;
 				break;
@@ -104,20 +120,25 @@ SLista* remove_soldado(SLista *lista, SLista *soldado) {
 			aux = aux->prox;
 
 		} while (aux->prox != lista);
-
 	}
 
+	// Limpa esse espaço de memória
 	free(soldado);
+
+	// Retorna a nova lista
 	return lista;
 }
 
-SLista* executaJosephus(SLista *lista, int quantidade) {
+/*
+ * Função Josephus
+ */
+SLista* executaJosephus(SLista* lista, int quantidade) {
 
 	int i, num_soldado, num_iteracoes;
 	srand(time(NULL));
 
-	if (quantidade == 1)
-	{
+	// Verifica se há apenas um soldado na lista
+	if (quantidade == 1) {
 		printf("\n [!] Soldado escolhido: %s\n\n", lista->nome);
 		return lista;
 	}
@@ -125,17 +146,17 @@ SLista* executaJosephus(SLista *lista, int quantidade) {
 	num_iteracoes = rand() % 20;
 	num_soldado = rand() % quantidade;
 
-	SLista *aux = lista;
+	SLista* aux = lista;
 
 	printf("Posicao do soldado inicial: %d\n", num_soldado);
 
-	//O soldado sorteado vai ser a X iteração do número sorteado
+	// O soldado sorteado vai ser a X interação do número sorteado
 	for (i = 0; i < num_soldado; i++)
 		aux = aux->prox;
 
-	printf("Soldado inicial: %s\nNum. de iteracoes na adedanha: %d\n", aux->nome, num_iteracoes);
+	printf("Soldado inicial: %s\nNum. de interações na adedanha: %d\n", aux->nome, num_iteracoes);
 
-	//Percorre a lista X vezes a partir do soldado sorteado e elimina um da lista
+	// Percorre a lista X vezes a partir do soldado sorteado e elimina um soldado da lista
 	for (i = 0; i < num_iteracoes; i++)
 		aux = aux->prox;
 
@@ -145,29 +166,35 @@ SLista* executaJosephus(SLista *lista, int quantidade) {
 	return executaJosephus(lista, quantidade - 1);
 }
 
-SLista* insereSoldadoNoCirc(SLista* lista, char *nome, int num) {
+/*
+ * Função que insere um soldado na lista
+ */
+SLista* insereSoldadoNoCirc(SLista* lista, char* nome, int num) {
 
 	// Alocação do soldado na memória
-	SLista *soldado = cria_soldado(nome, num);
+	SLista* soldado = cria_soldado(nome, num);
 
 	/* Se lista existir (se não estiver vazia),
-	 * percorre até encontrar o último elemento
-	 * liga o 'prox' do novo soldado na lista,
-	 * liga o 'prox' do último soldado no novo soldado.
+	 * percorre até encontrar o último elemento.
+	 * Liga o 'prox' do último soldado no novo soldado,
+	 * liga o 'prox' do novo soldado na lista.
 	 */
-	if (lista) {
+	if (!verificaCircVazio(lista)) {
 		SLista* aux = lista;
 
 		while (aux->prox != lista)
 			aux = aux->prox;
 
 		aux->prox = soldado; // Liga o último elemento da lista no novo registro
-		soldado->prox = lista; // Fecha a lista circular, ligando o último registro na lista
+		soldado->prox = lista; // Fecha a lista circular, ligando o novo registro na lista
 	}
 
 	return soldado;
 }
 
+/*
+ * Função que imprime na tela a lista com os soldados inseridos
+ */
 void imprimeSoldadosCirc(SLista* lista) {
 
 	SLista* aux = lista;
@@ -181,14 +208,23 @@ void imprimeSoldadosCirc(SLista* lista) {
 	}
 }
 
+/*
+ * Função que inicializa a lista
+ */
 SLista* inicializa() {
 	return NULL;
 }
 
+/*
+ * Função que verifica se a lista está vazia
+ */
 int verificaCircVazio(SLista* lista) {
 	return !lista;
 }
 
+/*
+ * Função que verifica a quantidade de soldados na lista
+ */
 int verificaQteSoldados(SLista* lista) {
 	int qtd = 0;
 	SLista* aux = lista;
