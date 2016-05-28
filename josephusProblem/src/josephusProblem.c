@@ -119,6 +119,5 @@ int verificaQteSoldados(SLista* lista) {
 			aux = aux->prox;
 		}
 	}
-
 	return qtd;
 }
