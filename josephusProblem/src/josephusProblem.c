@@ -1,8 +1,8 @@
 /*
  ============================================================================
  Name        : josephusProblem.c
- Author      : Natasha Kaweski e Vinícius Ferreira
- Version     :
+ Author      : Natasha Kaweski e Vinícius Ferreira (12-4NA)
+ Version     : Version 2.1
  Copyright   : Your copyright notice
  Description : O Problema de Josephus (Tenenbaum, 1989)
  ============================================================================
@@ -23,15 +23,15 @@ struct soldado {
 };
 
 // Auxiliares
-SLista* cria_soldado(char *nome, int numero);
+SLista* cria_soldado(char* nome, int numero);
 SLista* remove_soldado(SLista* lista, SLista* soldado);
 
 SLista* inicializa();
 int verificaCircVazio(SLista* lista);
-SLista* insereSoldadoNoCirc(SLista* lista, char *nome, int num);
+SLista* insereSoldadoNoCirc(SLista* lista, char* nome, int num);
 void imprimeSoldadosCirc(SLista* lista);
 int verificaQteSoldados(SLista* lista);
-SLista* executaJosephus(SLista *lista, int quantidade);
+SLista* executaJosephus(SLista* lista, int quantidade);
 
 int main(void) {
 
@@ -41,7 +41,6 @@ int main(void) {
 
 	// Escolhe um número
 	srand(time(0));
-
 
 	// Declaração de variáveis
 	int i;
@@ -137,7 +136,7 @@ SLista* executaJosephus(SLista* lista, int quantidade) {
 
 	// Verifica se o circulo esta vazio
 	if (verificaCircVazio(lista)) {
-		printf("\n[-] Ops! Circulo esta vazio.\n");
+		printf("\n[-] Ops! Círculo esta vazio.\n");
 		return lista;
 	}
 
@@ -156,7 +155,7 @@ SLista* executaJosephus(SLista* lista, int quantidade) {
 
 	imprimeSoldadosCirc(lista);
 
-	printf("\nSorteando o soldado para iniciar a contagem...\nSorteado %da posicao.\n", num_soldado + 1);
+	printf("\nSorteando o soldado para iniciar a contagem...\nSorteado %da posição.\n", num_soldado + 1);
 
 	// O soldado sorteado vai ser a X iteração do número sorteado
 	for (i = 0; i < num_soldado; i++)
