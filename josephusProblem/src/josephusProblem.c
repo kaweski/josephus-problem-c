@@ -42,6 +42,7 @@ int main(void) {
 	// Escolhe um número
 	srand(time(0));
 
+
 	// Declaração de variáveis
 	int i;
 	SLista* listax = inicializa();
@@ -54,11 +55,9 @@ int main(void) {
 	for (i = 0; i < 5; i++)
 		listax = insereSoldadoNoCirc(listax, nomes[i], (i+1));
 
-	imprimeSoldadosCirc(listax);
-
 	// Quantidade de soldados na lista
 	int quantidade = verificaQteSoldados(listax);
-	printf("\nQuantidade de Soldados: %d\n\n", quantidade);
+	//printf("\nQuantidade de Soldados: %d\n\n", quantidade);
 
 	// =======================
 	// Execução de Josephus
@@ -135,11 +134,16 @@ SLista* remove_soldado(SLista* lista, SLista* soldado) {
 SLista* executaJosephus(SLista* lista, int quantidade) {
 
 	int i, num_soldado, num_iteracoes;
-	srand(time(NULL));
+
+	// Verifica se o circulo esta vazio
+	if (verificaCircVazio(lista)) {
+		printf("\n[-] Ops! Circulo esta vazio.\n");
+		return lista;
+	}
 
 	// Verifica se há apenas um soldado na lista
 	if (quantidade == 1) {
-		printf("\n [!] Soldado escolhido: %s\n\n", lista->nome);
+		printf("\n[!] Soldado escolhido: %s\n", lista->nome);
 		return lista;
 	}
 
@@ -148,20 +152,26 @@ SLista* executaJosephus(SLista* lista, int quantidade) {
 
 	SLista* aux = lista;
 
-	printf("Posicao do soldado inicial: %d\n", num_soldado);
+	printf("Quantidade de soldados: %d\n\n", quantidade);
 
-	// O soldado sorteado vai ser a X interação do número sorteado
+	imprimeSoldadosCirc(lista);
+
+	printf("\nSorteando o soldado para iniciar a contagem...\nSorteado %da posicao.\n", num_soldado + 1);
+
+	// O soldado sorteado vai ser a X iteração do número sorteado
 	for (i = 0; i < num_soldado; i++)
 		aux = aux->prox;
 
-	printf("Soldado inicial: %s\nNum. de interações na adedanha: %d\n", aux->nome, num_iteracoes);
+	printf("Soldado inicial: %s\nNum. de iterações na adedanha: %d\n", aux->nome, num_iteracoes);
 
 	// Percorre a lista X vezes a partir do soldado sorteado e elimina um soldado da lista
 	for (i = 0; i < num_iteracoes; i++)
 		aux = aux->prox;
 
-	printf("Soldado eliminado: %s\n\n", aux->nome);
+	printf("Soldado eliminado: %s\n", aux->nome);
 	lista = remove_soldado(lista, aux);
+
+	printf("\n-----------------------------------------\n");
 
 	return executaJosephus(lista, quantidade - 1);
 }
@@ -201,7 +211,7 @@ void imprimeSoldadosCirc(SLista* lista) {
 
 	if ( !verificaCircVazio(lista) ) {
 		do {
-			printf("Soldado: [%d] %s [%p]->[%p]\n", aux->num, aux->nome, aux, aux->prox);
+			printf("[Num. %d] %s [%p]->[%p]\n", aux->num, aux->nome, aux, aux->prox);
 			aux = aux->prox;
 
 		} while (aux != lista);
