@@ -1,6 +1,4 @@
-# aaiedii {
-
-## Problema de Josephus ##
+# Problema de Josephus #
 
 Trabalho realizado para a disciplina de Estrutura de Dados II, executado na IDE Eclipse C/C++ e MinGW.
 Matéria ministrada pelo professor Rafael Nunes, no curso de Ciência da Computação do 4º Período, na Universidade FUMEC.
@@ -51,5 +49,3 @@ Problema de Josephus (Tenenbaum, 1989)
 * `imprimeSoldadosCirc();`
 * `verificaQteSoldados();`
 * `executaJosephus();`
-
-# }
